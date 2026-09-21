@@ -1,8 +1,8 @@
 /**
- * Descripción
- * @method Nombre de la función
- * @param Parámetro A
- * @param Parámetro B
+ * Conversion de unidades de metros, piers, yardas y pulgadas
+ * @method convertirUnidades
+ * @param {string} id - Id del elemento input en el html
+ * @param {number} valor - Valor que se desea convertir
  * @return Valor que retorna
  */
 
