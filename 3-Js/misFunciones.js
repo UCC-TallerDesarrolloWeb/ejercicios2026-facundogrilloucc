@@ -85,5 +85,5 @@ function calcularSuma() {
     let sum1, sum2;
     sum1 = parseFloat(document.getElementById("nums1").value);
     sum2 = parseFloat(document.getElementById("nums2").value);
-    document.getElementById("totalS").value = sum1 + sum2;
+    document.getElementById("totalS").innerText = sum1 + sum2;
 }

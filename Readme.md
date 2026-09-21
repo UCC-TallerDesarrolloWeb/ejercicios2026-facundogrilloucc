@@ -56,9 +56,9 @@
 -  [x] Mostrar/Ocultar Dialog
 -  [x] Operaciones Matemáticas
 -  [x] Conversor de Unidades II
--  [ ] Operaciones Matemáticas II
--  [ ] Renderizado Dinámico
--  [ ] Renderizado Dinámico del Dialog
+-  [x] Operaciones Matemáticas II
+-  [x] Renderizado Dinámico
+-  [x] Renderizado Dinámico del Dialog
 -  [ ] Carrito de Compras con localstorage
 -  [ ] Vaciar Carrito y Eliminar Producto
 -  [ ] Filter
