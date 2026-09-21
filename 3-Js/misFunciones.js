@@ -6,32 +6,42 @@
  * @return Valor que retorna
  */
 
-function convertirUnidades(id, valor) {
+convertirUnidades = (id, valor) => {
+    let metros, pulgadas, pies, yardas;
+
     if (isNaN(valor)) {
         alert("Por favor, ingrese un número válido: "+id);
-        document.getElementById("metro").value = "";
-        document.getElementById("pulgada").value = "";
-        document.getElementById("pie").value = "";
-        document.getElementById("yarda").value = "";
+        metros = "";
+        pulgadas = "";
+        pies = "";
+        yardas = "";
         return;
-    }else if
-    (id === "metro") {
-        document.getElementById("pulgada").value = (valor * 39.3701);
-        document.getElementById("pie").value = (valor * 3.28084);
-        document.getElementById("yarda").value = (valor * 1.09361);
-    }else if (id === "pulgada") {
-        document.getElementById("metro").value = (valor * 0.0254);
-        document.getElementById("pie").value = (valor * 0.0833333);
-        document.getElementById("yarda").value = (valor * 0.0277778);
+    } else if (id === "metro") {
+        metros = valor;
+        pulgadas = (valor * 39.3701);
+        pies = (valor * 3.28084);
+        yardas = (valor * 1.09361);
+    } else if (id === "pulgada") {
+        pulgadas = valor;
+        metros = (valor * 0.0254);
+        pies = (valor * 0.0833333);
+        yardas = (valor * 0.0277778);
     }else if (id === "pie") {
-        document.getElementById("metro").value = (valor * 0.3048);
-        document.getElementById("pulgada").value = (valor * 12);
-        document.getElementById("yarda").value = (valor * 0.333333);
+        pies = valor;
+        metros= (valor * 0.3048);
+        pulgadas = (valor * 12);
+        yardas = (valor * 0.333333);
     }else if (id === "yarda") {
-        document.getElementById("metro").value = (valor * 0.9144);
-        document.getElementById("pulgada").value = (valor * 36);
-        document.getElementById("pie").value = (valor * 3);
+        yardas = valor;
+        metros = (valor * 0.9144);
+        pulgadas = (valor * 36);
+        pies = (valor * 3);
     }
+
+    document.getElementById("metro").value = metros;
+    document.getElementById("pulgada").value = pulgadas;
+    document.getElementById("pie").value = pies;
+    document.getElementById("yarda").value = yardas;
 }
 
 /**
