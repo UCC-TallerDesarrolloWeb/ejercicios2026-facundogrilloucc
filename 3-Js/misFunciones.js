@@ -33,3 +33,22 @@ function convertirUnidades(id, valor) {
         document.getElementById("pie").value = (valor * 3);
     }
 }
+
+/**
+ * Conversión de grados a radianes y viceversa
+ * @method convertirGR
+ * @param {string} id - Id del elemento input en el html
+ */
+
+function convertirGR(id) {
+    let grad, rad;
+    if (id === "grados") {
+        grad = document.getElementById("grados").value;
+        rad = grad * (Math.PI / 180);
+        document.getElementById("radianes").value = rad;
+    } else if (id === "radianes") {
+        rad = document.getElementById("radianes").value;
+        grad = rad * (180 / Math.PI);
+        document.getElementById("grados").value = grad;
+    }
+}
