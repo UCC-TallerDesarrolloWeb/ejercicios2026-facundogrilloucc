@@ -61,3 +61,21 @@ const productos = [
     imagen: "protectores-pie.webp",
   },
 ];
+
+/**
+ * Mostrar un modal con información del producto
+ * @method mostrarModal
+ */
+
+mostrarModal = () => {
+  document.getElementById("modal").style.display = "block";
+};
+
+/**
+ * Cerrar el modal
+ * @method cerrarModal
+ */
+
+cerrarModal = () => {
+  document.getElementById("modal").style.display = "none";
+};

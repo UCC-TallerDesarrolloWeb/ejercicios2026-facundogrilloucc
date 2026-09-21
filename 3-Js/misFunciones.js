@@ -9,6 +9,8 @@
 convertirUnidades = (id, valor) => {
     let metros, pulgadas, pies, yardas;
 
+    valor = valor.replace(",", ".");
+
     if (isNaN(valor)) {
         alert("Por favor, ingrese un número válido: " + id);
         metros = "";
@@ -38,10 +40,10 @@ convertirUnidades = (id, valor) => {
         pies = (valor * 3);
     }
 
-    document.getElementById("metro").value = metros;
-    document.getElementById("pulgada").value = pulgadas;
-    document.getElementById("pie").value = pies;
-    document.getElementById("yarda").value = yardas;
+    document.getElementById("metro").value = Math.round(metros * 100) / 100;
+    document.getElementById("pulgada").value = Math.round(pulgadas * 100) / 100;
+    document.getElementById("pie").value = Math.round(pies * 100) / 100;
+    document.getElementById("yarda").value = Math.round(yardas * 100) / 100;
 }
 
 /**
@@ -77,4 +79,11 @@ mostrarOcultar = (valor) => {
   //  } else if(valor === "val_ocultar") {
   //      document.getElementById("unDiv").style.display = "none";
   //  }
+}
+
+function calcularSuma() {
+    let sum1, sum2;
+    sum1 = parseFloat(document.getElementById("nums1").value);
+    sum2 = parseFloat(document.getElementById("nums2").value);
+    document.getElementById("totalS").value = sum1 + sum2;
 }
