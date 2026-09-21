@@ -10,7 +10,7 @@ convertirUnidades = (id, valor) => {
     let metros, pulgadas, pies, yardas;
 
     if (isNaN(valor)) {
-        alert("Por favor, ingrese un número válido: "+id);
+        alert("Por favor, ingrese un número válido: " + id);
         metros = "";
         pulgadas = "";
         pies = "";
@@ -26,12 +26,12 @@ convertirUnidades = (id, valor) => {
         metros = (valor * 0.0254);
         pies = (valor * 0.0833333);
         yardas = (valor * 0.0277778);
-    }else if (id === "pie") {
+    } else if (id === "pie") {
         pies = valor;
-        metros= (valor * 0.3048);
+        metros = (valor * 0.3048);
         pulgadas = (valor * 12);
         yardas = (valor * 0.333333);
-    }else if (id === "yarda") {
+    } else if (id === "yarda") {
         yardas = valor;
         metros = (valor * 0.9144);
         pulgadas = (valor * 36);
@@ -61,4 +61,20 @@ function convertirGR(id) {
         grad = rad * (180 / Math.PI);
         document.getElementById("grados").value = grad;
     }
+}
+
+/**
+ * Mostrar/Ocultar un div
+ * @method mostrarOcultar
+ * @param {string} valor - Valor que se desea mostrar u ocultar
+ */
+
+mostrarOcultar = (valor) => {
+    const displayDiv = valor === "val_mostrar" ? "block" : "none";
+
+  //  if(valor === "val_mostrar") {
+  //      document.getElementById("unDiv").style.display = "block";
+  //  } else if(valor === "val_ocultar") {
+  //      document.getElementById("unDiv").style.display = "none";
+  //  }
 }
