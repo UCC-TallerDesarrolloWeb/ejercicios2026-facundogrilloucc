@@ -62,6 +62,8 @@ const productos = [
   },
 ];
 
+let productoSeleccionado = null;
+
 /**
  * Mostrar un modal con información del producto
  * @method mostrarModal
@@ -69,6 +71,7 @@ const productos = [
  */
 
 mostrarModal = (num) => {
+  productoSeleccionado = num;
   document.getElementById("nombre-producto").innerText = productos[num].nombre;
   document.getElementById("descripcion-producto").innerText = productos[num].description;
   document.getElementById("modal").style.display = "block";
@@ -83,16 +86,164 @@ cerrarModal = () => {
   document.getElementById("modal").style.display = "none";
 };
 
-mostrarCatalogo = () => {
+/**
+ * Mostrar el catálogo de productos
+ * @method mostrarCatalogo
+ * @param {Array} newList - La lista de productos a mostrar
+ */
+
+mostrarCatalogo = (newList = productos) => {
   let contenido = "";
 
-  productos.forEach((producto, id) => {
+  newList.forEach((producto) => {
+    let id = productos.indexOf(producto);
     contenido += `<div>
       <img src="https://ucc-tallerdesarrolloweb.github.io/filminas/images/ejercicios/${producto.imagen}" alt="${producto.nombre}">
             <h3>${producto.nombre}</h3>
+            <p>$${producto.precio}</p>
             <button type="button" onclick="mostrarModal(${id})">Ver detalle de producto</button>
-        </div>`;
+            <button type="button" onclick="agregarAlCarrito(${id})">Agregar al carrito</button>
+    </div>`;
   });
+
+  if (newList.length === 0) {
+    contenido = "<p>No se encontraron productos con los filtros seleccionados.</p>";
+  }
 
   document.getElementById("catalogo").innerHTML = contenido;
 };
+
+/**
+ * Agregar un producto al carrito
+ * @method agregarAlCarrito
+ * @param {number} num - El índice del producto a agregar al carrito
+ */
+
+agregarAlCarrito = (num) => {
+  if (num === undefined) {
+    num = productoSeleccionado;
+  }
+  if (num === null || num === undefined) {
+    return;
+  }
+
+  let carrito = localStorage.getItem("carrito");
+  console.log(carrito);
+
+  let carritoList;
+  if (carrito == null) {
+    carritoList = [];
+  } else {
+    carritoList = JSON.parse(carrito);
+  }
+  carritoList.push(num);
+  console.log(carritoList);
+  localStorage.setItem("carrito", JSON.stringify(carritoList));
+};
+
+/**
+ * Mostrar los productos del carrito
+ * @method mostrarCarrito
+ */
+
+mostrarCarrito = () => {
+  let carrito = localStorage.getItem("carrito");
+  console.log(carrito);
+  let contenido = "";
+
+  let carritoList = carrito != null ? JSON.parse(carrito) : [];
+
+  if (carritoList.length === 0) {
+    document.getElementById("carrito").innerHTML = "<p>El carrito está vacío</p>";
+    return;
+  } else {
+
+    carritoList.forEach((num, index) => {
+      if (productos[num]) {
+        contenido += `<div>
+        <h3>${productos[num].nombre}</h3>
+        <p>${productos[num].precio}</p>
+        <button type="button" onclick="eliminarProducto(${index})">Eliminar del carrito</button>
+      </div>`;
+      }
+    });
+
+    contenido += `<button type="button" onclick="vaciarCarrito()">Vaciar carrito</button>`;
+  }
+
+  document.getElementById("carrito").innerHTML = contenido;
+};
+
+/** 
+ * Vaciar el carrito
+ * @method vaciarCarrito
+ **/
+
+let vaciarCarrito = () => {
+  localStorage.removeItem("carrito");
+  mostrarCarrito();
+};
+
+/**
+ * Eliminar un producto del carrito
+ * @method eliminarProducto
+ * @param {number} index - El índice del producto en el carrito a eliminar
+ */
+
+let eliminarProducto = (index) => {
+  let carrito = localStorage.getItem("carrito");
+  let carritoList = carrito != null ? JSON.parse(carrito) : [];
+
+  carritoList.splice(index, 1);
+  localStorage.setItem("carrito", JSON.stringify(carritoList));
+  mostrarCarrito();
+};
+
+/**
+ * Filtrar los productos según los criterios de búsqueda
+ * @method filtrarProductos
+ */
+
+let filtrarProductos = () => {
+  let searchInput = document.getElementById("buscador");
+  let searchWord = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  let min = document.getElementById("precioMin").value;
+  let max = document.getElementById("precioMax").value;
+  let marca = document.getElementById("marca").value;
+  let prot = document.getElementById("protectores").checked;
+  let entren = document.getElementById("entrenamiento").checked;
+  let dobok = document.getElementById("dobok").checked;
+  let newLista = productos;
+
+  if (searchWord) {
+    newLista = newLista.filter((producto) =>
+      producto.nombre.toLowerCase().includes(searchWord)
+    );
+  }
+
+  if (min) {
+    newLista = newLista.filter((producto) => producto.precio >= Number(min));
+  }
+
+  if (max) {
+    newLista = newLista.filter((producto) => producto.precio <= Number(max));
+  }
+
+  if (marca !== "Todas") {
+    newLista = newLista.filter((producto) => producto.marca === marca);
+  }
+
+  let categoriasSeleccionadas = [];
+  if (prot) categoriasSeleccionadas.push("protectores");
+  if (entren) categoriasSeleccionadas.push("entrenamiento");
+  if (dobok) categoriasSeleccionadas.push("dobok");
+
+  if (categoriasSeleccionadas.length > 0) {
+    newLista = newLista.filter((producto) =>
+      categoriasSeleccionadas.includes(producto.categoria.toLowerCase())
+    );
+  }
+
+  mostrarCatalogo(newLista);
+};
+
