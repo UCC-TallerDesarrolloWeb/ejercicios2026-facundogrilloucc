@@ -158,17 +158,35 @@ mostrarCarrito = () => {
     document.getElementById("carrito").innerHTML = "<p>El carrito está vacío</p>";
     return;
   } else {
+    let total = 0;
+    const listProductos = [];
+    const listCant = [];
 
-    carritoList.forEach((num, index) => {
-      if (productos[num]) {
-        contenido += `<div>
-        <h3>${productos[num].nombre}</h3>
-        <p>${formatPrice(productos[num].precio)}</p>
-        <button type="button" onclick="eliminarProducto(${index})">Eliminar del carrito</button>
-      </div>`;
+    carritoList.forEach((num) => {
+      if (!listProductos.includes(num)) {
+        listProductos.push(num);
+        listCant.push(1);
+      } else {
+        const index = listProductos.indexOf(num);
+        listCant[index]++;
       }
     });
 
+    listProductos.forEach((num, index) => {
+      if (productos[num]) {
+        let cant = listCant[index];
+        total += productos[num].precio * cant;
+
+        contenido += `<div>
+        <h3>${productos[num].nombre}</h3>
+        <p>${formatPrice(productos[num].precio)}</p>
+        <p>Cantidad: ${cant}</p>
+        <button type="button" onclick="eliminarProducto(${num})">Eliminar del carrito</button>
+      </div>`;
+      }
+    });
+    
+    contenido += `<p>Total: ${formatPrice(total)}</p>`;
     contenido += `<button type="button" onclick="vaciarCarrito()">Vaciar carrito</button>`;
   }
 
@@ -183,22 +201,26 @@ mostrarCarrito = () => {
 let vaciarCarrito = () => {
   localStorage.removeItem("carrito");
   mostrarCarrito();
-  window.location.reload();
+  contarProductos();
 };
 
 /**
  * Eliminar un producto del carrito
  * @method eliminarProducto
- * @param {number} index - El índice del producto en el carrito a eliminar
+ * @param {number} num - El ID del producto en el carrito a eliminar
  */
 
-let eliminarProducto = (index) => {
+let eliminarProducto = (num) => {
   let carrito = localStorage.getItem("carrito");
   let carritoList = carrito != null ? JSON.parse(carrito) : [];
 
-  carritoList.splice(index, 1);
+  let index = carritoList.indexOf(num);
+  if (index !== -1) {
+    carritoList.splice(index, 1);
+  }
   localStorage.setItem("carrito", JSON.stringify(carritoList));
   mostrarCarrito();
+  contarProductos();
 };
 
 /**
@@ -263,11 +285,49 @@ let formatPrice = (price) => {
   }).format(price);
 };
 
+/**
+ * Contar la cantidad de productos en el carrito y actualizar el contador en la interfaz
+ * @method contarProductos
+ */
+
 let contarProductos = () => {
   let carrtioList = localStorage.getItem("carrito");
-  carritoList = carrtioList != null ? JSON.parse(carrtioList) : [];
+  let carritoList = carrtioList != null ? JSON.parse(carrtioList) : [];
 
-  if (carritoList.length > 0) {
-    document.getElementById("cant-prod").innerText = carritoList.length;
+  let badge = document.getElementById("cant-prod");
+  if (badge) {
+    badge.innerText = carritoList.length;
   }
+};
+
+
+
+let ordenarCatalogo = () => {
+  const opt = document.getElementById("ordenar").value;
+  let newProductos;
+
+  switch (opt) {
+    case "menor":
+      newProductos = productos.sort((a, b) => a.precio - b.precio);
+      break;
+    case "mayor":
+      newProductos = productos.sort((a, b) => b.precio - a.precio);
+      break;
+    case "alfabetico":
+      newProductos = productos.sort((a, b) => {
+        if (a.nombre.toLocaleLowerCase() < b.nombre.toLocaleLowerCase())
+          return -1;
+      });
+      break;
+    case "alfabetico-inverso":
+      newProductos = productos.sort((a, b) => {
+        if (a.nombre.toLocaleLowerCase() > b.nombre.toLocaleLowerCase())
+          return -1;
+      });
+      break;
+    default:
+      newProductos = productos;
+  }
+
+  mostrarCatalogo(newProductos);
 }

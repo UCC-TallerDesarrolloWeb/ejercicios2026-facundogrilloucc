@@ -59,6 +59,15 @@
                 <label for="dobok">Dobok</label>
             </p>
         </fieldset>
+        <fieldset>
+            <legend>Ordenar Catalogo</legend>
+            <select id="ordenar" name="ordenar" onchange="ordenarCatalogo()">
+                <option value="mayor">por Precio (Mayor a Menor)</option>
+                <option value="menor">por Precio (Menor a Mayor)</option>
+                <option value="alfabetico">por Nombre (A-Z)</option>
+                <option value="alfabetico-inverso">por Nombre (Z-A)</option>
+            </select>
+        </fieldset>
     </aside>
 
     <dialog id="modal">
