@@ -100,7 +100,7 @@ mostrarCatalogo = (newList = productos) => {
     contenido += `<div>
       <img src="https://ucc-tallerdesarrolloweb.github.io/filminas/images/ejercicios/${producto.imagen}" alt="${producto.nombre}">
             <h3>${producto.nombre}</h3>
-            <p>$${producto.precio}</p>
+            <p>${formatPrice(producto.precio)}</p>
             <button type="button" onclick="mostrarModal(${id})">Ver detalle de producto</button>
             <button type="button" onclick="agregarAlCarrito(${id})">Agregar al carrito</button>
     </div>`;
@@ -139,6 +139,7 @@ agregarAlCarrito = (num) => {
   carritoList.push(num);
   console.log(carritoList);
   localStorage.setItem("carrito", JSON.stringify(carritoList));
+  contarProductos();
 };
 
 /**
@@ -162,7 +163,7 @@ mostrarCarrito = () => {
       if (productos[num]) {
         contenido += `<div>
         <h3>${productos[num].nombre}</h3>
-        <p>${productos[num].precio}</p>
+        <p>${formatPrice(productos[num].precio)}</p>
         <button type="button" onclick="eliminarProducto(${index})">Eliminar del carrito</button>
       </div>`;
       }
@@ -182,6 +183,7 @@ mostrarCarrito = () => {
 let vaciarCarrito = () => {
   localStorage.removeItem("carrito");
   mostrarCarrito();
+  window.location.reload();
 };
 
 /**
@@ -247,3 +249,25 @@ let filtrarProductos = () => {
   mostrarCatalogo(newLista);
 };
 
+/**
+ * Formatear el precio a moneda local
+ * @method formatPrice
+ * @param {number} price - El precio a formatear
+ * @returns {string} - El precio formateado como moneda local
+ */
+
+let formatPrice = (price) => {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+  }).format(price);
+};
+
+let contarProductos = () => {
+  let carrtioList = localStorage.getItem("carrito");
+  carritoList = carrtioList != null ? JSON.parse(carrtioList) : [];
+
+  if (carritoList.length > 0) {
+    document.getElementById("cant-prod").innerText = carritoList.length;
+  }
+}
