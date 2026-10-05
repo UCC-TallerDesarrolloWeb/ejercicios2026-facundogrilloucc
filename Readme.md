@@ -67,16 +67,16 @@
 -  [x] Ordenar el catálogo
 
 ## Unidad 4: Funcionamiento del Navegador y Herramientas de Desarrollo
--  [ ] Checkeo de accesiilidad: AXE
--  [ ] Checkeo de Lighthouse: accesibilidad, CEO, performance, buenas prácticas
+-  [x] Checkeo de accesiilidad: AXE
+-  [x] Checkeo de Lighthouse: accesibilidad, CEO, performance, buenas prácticas
 
 ## Unidad 5: Frameworks y Preprocesadores CSS
 
 ### BootStrap
--  [ ] Instagram
--  [ ] Componente para selección de vuelos
--  [ ] Timeline
--  [ ] Componente Perfil
+-  [x] Instagram
+-  [x] Componente para selección de vuelos
+-  [x] Timeline
+-  [x] Componente Perfil
 -  [ ] Youtube
 
 ### SASS
